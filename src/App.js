@@ -1,28 +1,29 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
-}
+import Input from './components/Input';
+import { useInput } from './hooks/useInput';
+
+const App = () => {
+  const newTodo = useInput('');
+  const [todos, setTodos] = useState([]);
+  console.log(newTodo.value);
+  return (
+    <>
+      <Input type="text" {...newTodo.bindToInput} placeholder="new todo" />
+      <button
+        disabled={!newTodo.hasValue}
+        onClick={() => {
+          setTodos(newTodo.value);
+          newTodo.clear();
+        }}
+      >
+        {' '}
+        Add
+      </button>
+
+      <p>{todos}</p>
+    </>
+  );
+};
 
 export default App;
